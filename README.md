@@ -4,7 +4,7 @@ This is supposed to be a program very much like [TF2 Bot Detector](
 https://github.com/PazerOP/tf2_bot_detector). 
 It's a program that connects to a local Team Fortress 2 remote console(RCON for short) and sends commands and read from the game's console log file information, and present this in a user interface. 
 It also handles rule files that allows you to specify that players with certain name or chat text patterns will result in some action. 
-The most typical action is to mark a player as a cheater and try to automatically vote-kick that player.
+The most typical action is to mark a player as a cheater and try to automatically vote-kick that player or at least inform the other team they have a bot.
 
 # Background
 
@@ -14,6 +14,7 @@ Valve is very slow with banning the bot accounts and the in-game tools are primi
 Actually, except fixing some game crashing bugs, Valve has not done anything from what I know. 
 And they are criminally bad at communication. 
 Oh, I almost forgot, they made it impossible for Free2Play accounts to not use any chat, voice or otherwise along with some other restrictions.
+Not a good way to build a community. Despite this, TF2 is more popular than ever.
 
 I've programming since young age, and these days when I'm not too tired after work it would be nice to have a fun project and to develop some new skill set.
 
@@ -42,6 +43,12 @@ Here's a list of thinks that I think the application need to do:
 - **NOT DONE** Parse lines in the TF2 log file. The format feels quite free-form and ad hoc from a first look. Might be a bit tricky.
 - **NOT DONE** Truncate the TF2 log file periodically. For efficiency.
 - **NOT DONE** The whole user interface. Will write more here when the time comes.
+
+## Async vs threads
+
+Async in Rust requires a run-time to make it work.
+There are several run-times for this.
+Often but not always you can compile the libraries to use the async run-time you use.
 
 I don't think async is something that would help the architecture of this application, so I'll settle for a couple a well-placed threads and probably use message queues for internal communication.
 
@@ -108,6 +115,7 @@ There are some frameworks and libraries for Rust that does some close variant of
   - Pro: Uses gtk meaning it will look nice and have plenty of widgets to pick from.
   - Pro & Cons: Uses some declarative markup language. While it looks slick, I'm not sure how this affects trouble-shooting.
   - Pro: Made by Bodil Stokke. The implementation is likely of high quality and well thought through design choices. I guess support will be easy to get.
+  - Cons: Extra library files needed for gtk. Rust produces a single executable file. I'd like to keep it that way.
 
 - [druid](https://github.com/linebender/druid). Have not used, only read example code. Looks pretty neat and I like the comments the author has made on Hacker News.
   - Pro: Cross-platform.
@@ -117,7 +125,7 @@ There are some frameworks and libraries for Rust that does some close variant of
 
 - [WinRT-RS](https://github.com/microsoft/winrt-rs). This is a Rust interface to the Universal Windows Platform, WinRT, and WinUI. Microsoft and names...
   - Pro: Official support from Microsoft.
-  - Pro: Rich set pf native, high-quality widgets.
+  - Pro: Rich set of native, high-quality widgets.
   - Pro: Design the UI using XAML.
   - Cons: Not cross-platform right now. Might be in the future.
   - Cons: Looks complicated to use. Maybe that's because I've not used WinRT and C++. XAML and C# is easy, but this doesn't quite look like it's the same as XAML and C# but with C++ instead.
