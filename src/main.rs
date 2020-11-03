@@ -7,12 +7,14 @@ mod main_window;
 mod player;
 mod rcon;
 mod rules;
+mod steam_api;
 mod tf2process;
 
 fn main() {
     // test_read_rules_file();
     // test_ui();
-    test_tf2_process();
+    // test_tf2_process();
+    // test_steam_api();
 }
 
 fn test_read_rules_file() {
@@ -30,4 +32,8 @@ fn test_tf2_process() {
     let args = Tf2ProcessArgs::new();
     let process = Tf2Process::start(&args, &rcon_args);
     process.wait();
+}
+
+pub fn test_steam_api() {
+    // steam_api::testen();
 }
