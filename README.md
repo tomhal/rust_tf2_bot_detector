@@ -16,7 +16,7 @@ And they are criminally bad at communication.
 Oh, I almost forgot, they made it impossible for Free2Play accounts to not use any chat, voice or otherwise along with some other restrictions.
 Not a good way to build a community. Despite this, TF2 is more popular than ever.
 
-I've programming since young age, and these days when I'm not too tired after work it would be nice to have a fun project and to develop some new skill set.
+I've been programming since young age, and these days when I'm not too tired after work it would be nice to have a fun project and to develop some new skill set.
 
 In my case I'm very interested in learning the [Rust Programming Language](https://www.rust-lang.org/).
 It's an interesting low-level-ish language with some concepts not seen very often. 
@@ -31,11 +31,12 @@ I hope I don't end up using some Electron style user interface. There are severa
 This is a work in progress.
 Nothing is decided yet, and I read the source code of TF2 Bot Detector and try to understand how it work, bit by bit along with implementing similar code in this application.
 
-Here's a list of thinks that I think the application need to do:
+Here's a list of things that I think the application need to do:
 
 - **DONE** Read and write JSON files containing rules. 
-- **NOT DONE** Read and write JSON files containing player lists.
+- **DONE** Read player info from Steam Web API.
 - **DONE** Start TF2 with command line arguments that sets the RCON password and port along with some other arguments.
+- **NOT DONE** Read and write JSON files containing player lists.
 - **NOT DONE** Monitor the TF2 process.
 - **NOT DONE** Open a socket to the TF2 RCON.
 - **NOT DONE** Write commands and read responses in the binary format RCON uses.

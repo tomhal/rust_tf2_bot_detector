@@ -1,7 +1,10 @@
-#![allow(dead_code)]
-
 use serde::{Deserialize, Serialize};
 
+/// The player info we need from Steam Web API.
+/// Not all fields are of interest so this struct
+/// only contain those we are interested in.
+/// See official documentation at:
+/// https://wiki.teamfortress.com/wiki/WebAPI/GetPlayerSummaries
 #[derive(Serialize, Deserialize, Debug)]
 pub struct SteamPlayer {
     #[serde(rename = "steamid")]
@@ -15,17 +18,22 @@ pub struct SteamPlayer {
     avatar: String,
 }
 
+/// Helper struct when deserializing the reply from Steam Web API
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPlayerSummariesBody {
     response: GetPlayerSummariesResponse,
 }
 
+/// Helper struct when deserializing the reply from Steam Web API
 #[derive(Serialize, Deserialize, Debug)]
 struct GetPlayerSummariesResponse {
     players: Vec<SteamPlayer>,
 }
 
 impl SteamPlayer {
+    /// Deserializes the JSON reply from Steam Web API.
+    /// The reply contain several SteamPlayer.
+    /// See unit test test_parse_steam_player() for how it looks.
     pub fn from_json_str(json: &str) -> Vec<SteamPlayer> {
         let body: GetPlayerSummariesBody = serde_json::from_str(&json).unwrap();
         body.response.players
@@ -43,6 +51,8 @@ impl SteamWebApiClient {
         SteamWebApiClient { api_key }
     }
 
+    /// Ask Steam Web API for player info about a list of steamids.
+    /// See official documentation at:
     /// https://wiki.teamfortress.com/wiki/WebAPI/GetPlayerSummaries
     pub fn get_player_summaries(
         &self,

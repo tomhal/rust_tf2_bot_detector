@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 // https://github.com/PazerOP/SourceRCON
 // https://github.com/Subtixx/source-rcon-library
 
