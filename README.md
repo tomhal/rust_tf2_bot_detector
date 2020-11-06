@@ -8,23 +8,14 @@ The most typical action is to mark a player as a cheater and try to automaticall
 
 # Background
 
-I play TF2(say hi to aftershave on EU, mostly Stockholm, servers) since years and the bot problem is at times making the game not fun to play. 
-The bots have running amok in TF2 since about 2-3 years now.
+I play TF2 since years and the bot problem is at times making the game not fun to play. 
+The bots have been running amok in TF2 since about 2-3 years now.
 Valve is very slow with banning the bot accounts and the in-game tools are primitive and frustrating. 
-Actually, except fixing some game crashing bugs, Valve has not done anything from what I know. 
-And they are criminally bad at communication. 
-Oh, I almost forgot, they made it impossible for Free2Play accounts to not use any chat, voice or otherwise along with some other restrictions.
-Not a good way to build a community. Despite this, TF2 is more popular than ever.
 
-I've been programming since young age, and these days when I'm not too tired after work it would be nice to have a fun project and to develop some new skill set.
+I've been programming since young age, and these days when I'm not too tired after work it would be nice to have a fun project to develop some new skill set.
 
 In my case I'm very interested in learning the [Rust Programming Language](https://www.rust-lang.org/).
-It's an interesting low-level-ish language with some concepts not seen very often. 
-The tools and community also make it a pleasant and modern experience.
 So I thought why not combine my two interests and try to do a rewrite of TF2 Bot Detector.
-
-The hardest and most labor intensive part will be making a satisfying user interface.
-I hope I don't end up using some Electron style user interface. There are several user interface libraries for Rust. See https://www.areweguiyet.com/ for an overview. My feeling is that most of them are pretty far from being near the functionality and polish of Gtk, Qt, Cocoa and WinUI. There are of course wrappers for these frameworks for Rust.
 
 # Application architecture
 

@@ -51,7 +51,7 @@ impl SteamWebApiClient {
         SteamWebApiClient { api_key }
     }
 
-    /// Ask Steam Web API for player info about a list of steamids.
+    /// Ask Steam Web API for player info about a list of steam ids.
     /// See official documentation at:
     /// https://wiki.teamfortress.com/wiki/WebAPI/GetPlayerSummaries
     pub fn get_player_summaries(
