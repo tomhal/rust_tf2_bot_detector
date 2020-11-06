@@ -29,7 +29,7 @@ Currently only one binary can be build, the RCON Prompt.
 
 To run the RCON prompt type 
 
-    cargo run --bin rconprompt -- --port 40434
+    cargo run --bin rconprompt -- --port 40434 --password rconpwd
 
 This will build and start an RCON to `127.0.0.1:40434`. 
 
@@ -37,7 +37,7 @@ Try
 
     cargo run --bin rconprompt -- --help
 
-for more options. Currently only `--ip` is available too and it defaults to `127.0.0.1`.
+for options and usage.
 
 To start TF2 with an RCON at port `40434` you can use this:
 

@@ -8,11 +8,14 @@ mod rcon;
 mod utils;
 #[derive(StructOpt, Debug)]
 struct Options {
-    #[structopt(short, long, default_value = "127.0.0.1")]
+    #[structopt(long, default_value = "127.0.0.1")]
     ip: String,
 
-    #[structopt(short, long)]
+    #[structopt(long)]
     port: u16,
+
+    #[structopt(long)]
+    password: String,
 }
 
 fn main() {
@@ -24,8 +27,12 @@ fn main() {
     let mut rcon_args = RConArgs::new();
     rcon_args.ip = options.ip;
     rcon_args.port = options.port;
+    rcon_args.password = options.password;
 
-    println!("Connecting to {}:{}...", rcon_args.ip, rcon_args.port);
+    println!(
+        "Connecting to {}:{} with password '{}'...",
+        rcon_args.ip, rcon_args.port, rcon_args.password
+    );
 
     let mut client = rcon::RConClient::new(&rcon_args).unwrap();
     println!("Authorizing...");

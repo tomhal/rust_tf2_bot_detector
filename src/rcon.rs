@@ -204,6 +204,6 @@ impl RConClient {
         buf.resize(len, 0);
         self.stream.read_exact(&mut buf)?;
 
-        Ok(String::from_utf8(buf).unwrap())
+        Ok(String::from_utf8(buf)?)
     }
 }
