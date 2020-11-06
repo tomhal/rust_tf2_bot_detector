@@ -31,13 +31,17 @@ To run the RCON prompt type
 
     cargo run --bin rconprompt -- --port 40434
 
-This will build and start an rcon to `127.0.0.1:40434`. 
+This will build and start an RCON to `127.0.0.1:40434`. 
 
 Try
 
     cargo run --bin rconprompt -- --help
 
 for more options. Currently only `--ip` is available too and it defaults to `127.0.0.1`.
+
+To start TF2 with an RCON at port `40434` you can use this:
+
+    "C:\Program Files (x86)\Steam\steamapps\common\Team Fortress 2\hl2.exe" -steam -game tf  -usercon -high +developer 1 +alias developer +contimes 0 +alias contimes +ip 0.0.0.0 +alias ip +sv_rcon_whitelist_address 127.0.0.1 +alias sv_rcon_whitelist_address +sv_quota_stringcmdspersecond 1000000 +alias sv_quota_stringcmdspersecond +rcon_password rconpwd +alias rcon_password +hostport 40434 +alias hostport +alias cl_reload_localization_files +net_start +con_timestamp 1 +alias con_timestamp -condebug -conclearlog -novid -nojoy -nosteamcontroller -nohltv -particles 1 -console
 
 # Status 
 
