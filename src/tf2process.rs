@@ -3,7 +3,7 @@ use std::process::{Child, Command};
 
 /*
 
-"C:\Program Files (x86)\Steam\steamapps\common\Team Fortress 2\hl2.exe" -steam -game tf  -usercon -high +developer 1 +alias developer +contimes 0 +alias contimes +ip 0.0.0.0 +alias ip +sv_rcon_whitelist_address 127.0.0.1 +alias sv_rcon_whitelist_address +sv_quota_stringcmdspersecond 1000000 +alias sv_quota_stringcmdspersecond +rcon_password rconpwd +alias rcon_password +hostport 40434 +alias hostport +alias cl_reload_localization_files +net_start +con_timestamp 1 +alias con_timestamp -condebug -conclearlog -novid -nojoy -nosteamcontroller -nohltv -particles 1 -console -full -w 2560 -h 1440 +cl_cmdrate 66 +cl_updaterate 25000 +cl_interp 0 +cl_interp_ratio 1 +m_rawinput 1 +zoom_sensitivity_ratio 0.7  +fps_max 300
+"C:\Program Files (x86)\Steam\steamapps\common\Team Fortress 2\hl2.exe" -steam -game tf  -usercon -high +developer 1 +alias developer +contimes 0 +alias contimes +ip 0.0.0.0 +alias ip +sv_rcon_whitelist_address 127.0.0.1 +alias sv_rcon_whitelist_address +sv_quota_stringcmdspersecond 1000000 +alias sv_quota_stringcmdspersecond +rcon_password rconpwd +alias rcon_password +hostport 27015 +alias hostport +alias cl_reload_localization_files +net_start +con_timestamp 1 +alias con_timestamp -condebug -conclearlog -novid -nojoy -nosteamcontroller -nohltv -particles 1 -console -full -w 2560 -h 1440 +cl_cmdrate 66 +cl_updaterate 25000 +cl_interp 0 +cl_interp_ratio 1 +m_rawinput 1 +zoom_sensitivity_ratio 0.7  +fps_max 300
 
 */
 

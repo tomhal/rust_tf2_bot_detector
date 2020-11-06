@@ -62,13 +62,6 @@ impl RConClient {
         })
     }
 
-    /// Increases the package id but limits it to 0-65535,
-    /// and then returns the id.
-    fn next_id(&mut self) -> u32 {
-        self.id = self.id.wrapping_add(1) & 0xffff;
-        self.id
-    }
-
     pub fn authorize(&mut self) -> BoxResult<()> {
         let pkt = Pkt {
             id: self.next_id(),
@@ -114,6 +107,13 @@ impl RConClient {
         }
 
         Ok(result)
+    }
+
+    /// Increases the package id but limits it to 0-65535,
+    /// and then returns the id.
+    fn next_id(&mut self) -> u32 {
+        self.id = self.id.wrapping_add(1) & 0xffff;
+        self.id
     }
 
     /// Sends a halt/marker package.

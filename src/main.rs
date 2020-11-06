@@ -1,11 +1,11 @@
 #![allow(dead_code)]
 
-use main_window::run_counter;
+// use main_window::run_counter;
 use rcon::RConArgs;
 use rules::RulesFile;
 use tf2process::{Tf2Process, Tf2ProcessArgs};
 
-mod main_window;
+// mod main_window;
 mod player;
 mod rcon;
 mod rules;
@@ -29,7 +29,7 @@ fn test_read_rules_file() {
 }
 
 fn test_ui() {
-    run_counter();
+    // run_counter();
 }
 
 fn test_tf2_process() {

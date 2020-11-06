@@ -17,24 +17,49 @@ I've been programming since young age, and these days when I'm not too tired aft
 In my case I'm very interested in learning the [Rust Programming Language](https://www.rust-lang.org/).
 So I thought why not combine my two interests and try to do a rewrite of TF2 Bot Detector.
 
-# Application architecture
+# How to build
 
-This is a work in progress.
-Nothing is decided yet, and I read the source code of TF2 Bot Detector and try to understand how it work, bit by bit along with implementing similar code in this application.
+First you need to have a recent installation of Rust. Follow the instructions at https://www.rust-lang.org/tools/install for how to get Rust onto your system.
+
+Then download the source code using git or a .zip. Open a command prompt and navigate to inside rust_tf2_bot_detector.
+
+Currently only one binary can be build, the RCON Prompt.
+
+## RCON Prompt
+
+To run the RCON prompt type 
+
+    cargo run --bin rconprompt -- --port 40434
+
+This will build and start an rcon to `127.0.0.1:40434`. 
+
+Try
+
+    cargo run --bin rconprompt -- --help
+
+for more options. Currently only `--ip` is available too and it defaults to `127.0.0.1`.
+
+# Status 
 
 Here's a list of things that I think the application need to do:
 
 - **DONE** Read and write JSON files containing rules. 
 - **DONE** Read player info from Steam Web API.
 - **DONE** Start TF2 with command line arguments that sets the RCON password and port along with some other arguments.
+- **DONE** Implement the Source RCON protocol.
+- **DONE** RCON prompt utility.
 - **NOT DONE** Read and write JSON files containing player lists.
 - **NOT DONE** Monitor the TF2 process.
-- **NOT DONE** Open a socket to the TF2 RCON.
-- **NOT DONE** Write commands and read responses in the binary format RCON uses.
 - **NOT DONE** Monitor the TF2 log file to see the output from some RCON commands.
 - **NOT DONE** Parse lines in the TF2 log file. The format feels quite free-form and ad hoc from a first look. Might be a bit tricky.
 - **NOT DONE** Truncate the TF2 log file periodically. For efficiency.
 - **NOT DONE** The whole user interface. Will write more here when the time comes.
+
+# Application architecture
+
+## Platform choice
+
+No platform-specific code is used so far, this should build and work on the platforms Rust support out of the box. I'll try to keep it cross-platform.
 
 ## Async vs threads
 
@@ -52,20 +77,6 @@ I used [Serde](https://serde.rs/) and [Serde-JSON](https://github.com/serde-rs/j
 
 Here are the JSON schemas for the rules and player lists that TF2 Bot Detector uses:
 - https://github.com/PazerOP/tf2_bot_detector/tree/master/schemas/v3
-
-## RCON
-
-I'm about to start implementing this and I need to translate Rust structs into byte arrays to send over a socket to the TF2 RCON.
-I've found the library [Packed_Struct](https://github.com/hashmismatch/packed_struct.rs).
-Looks like once I figure out what TF2 RCON wants it should be a similar experience to using Serde to pack those bytes into a readily transmittable array of bytes.
-
-Here are some resources I plan to read a lot:
-
-- https://developer.valvesoftware.com/wiki/Source_RCON_Protocol
-
-- https://github.com/Subtixx/source-rcon-library
-
-- https://github.com/PazerOP/SourceRCON
 
 ## TF2 process monitor
 

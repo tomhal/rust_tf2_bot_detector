@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
-        "reqwest"
+        "eval",
+        "reqwest",
+        "structopt"
     ]
 }
