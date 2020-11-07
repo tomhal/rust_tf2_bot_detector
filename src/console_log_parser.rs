@@ -18,6 +18,12 @@ pub struct ConsoleLogParser {
 
 const REGEX_TIMESTAMP_STR: &'static str = r"\d{2}/\d{2}/\d{4} - \d{2}:\d{2}:\d{2}";
 
+/// ConsoleLogParser parses a line of TF2 console.log and turns it into a LogLineInfo data.
+/// The format of the console.log is not a structured format like JSON or XML,
+/// but seems machine readable with some regexps.
+///
+/// For now this parser only recognizes the output from the status rcon command,
+/// lines that are not of that line format are being returned as LogLineInfo::Nothing.
 impl ConsoleLogParser {
     pub fn new() -> Self {
         ConsoleLogParser {
@@ -101,7 +107,11 @@ mod tests {
             println!("console info: {:?}", info);
             match info {
                 LogLineInfo::Nothing => nothing_rows += 1,
-                LogLineInfo::PlayerInfo { steam_id, name, id } => player_rows += 1,
+                LogLineInfo::PlayerInfo {
+                    steam_id: _,
+                    id: _,
+                    name: _,
+                } => player_rows += 1,
             }
         }
 

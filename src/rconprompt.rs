@@ -6,6 +6,7 @@ use structopt::StructOpt;
 
 mod rcon;
 mod utils;
+
 #[derive(StructOpt, Debug)]
 struct Options {
     #[structopt(long, default_value = "127.0.0.1")]

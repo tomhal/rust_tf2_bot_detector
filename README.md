@@ -25,6 +25,12 @@ Then download the source code using git or a .zip. Open a command prompt and nav
 
 Currently only one binary can be build, the RCON Prompt.
 
+## Rust Bot Detector
+
+To run the Rust Bot Detector type
+
+    cargo run --bin rust_bot_detector
+    
 ## RCON Prompt
 
 To run the RCON prompt type 

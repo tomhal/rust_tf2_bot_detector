@@ -6,21 +6,22 @@ use rules::RulesFile;
 use tf2process::{Tf2Process, Tf2ProcessArgs};
 
 // mod main_window;
-mod console_log;
+mod console_log_parser;
+mod log_file_watcher;
 mod player;
+mod preferences;
 mod rcon;
 mod rules;
 mod steam_api;
 mod tf2process;
 mod utils;
 
+// See the main()s in rust_bot_detector.rs and rconprompt.rs instead.
 fn main() {
     // test_read_rules_file();
     // test_ui();
     // test_tf2_process();
     // test_steam_api();
-
-    test_rcon();
 }
 
 fn test_read_rules_file() {
@@ -41,15 +42,3 @@ fn test_tf2_process() {
 }
 
 fn test_steam_api() {}
-
-fn test_rcon() {
-    let rcon_args = RConArgs::new();
-    // let args = Tf2ProcessArgs::new();
-    // let process = Tf2Process::start(&args, &rcon_args);
-
-    let mut client = rcon::RConClient::new(&rcon_args).unwrap();
-    client.authorize().unwrap();
-    println!("{}", client.exec_command(&"cvarlist".to_string()).unwrap());
-
-    // process.wait();
-}
