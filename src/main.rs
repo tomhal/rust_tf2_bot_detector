@@ -6,6 +6,7 @@ use rules::RulesFile;
 use tf2process::{Tf2Process, Tf2ProcessArgs};
 
 // mod main_window;
+mod console_log;
 mod player;
 mod rcon;
 mod rules;

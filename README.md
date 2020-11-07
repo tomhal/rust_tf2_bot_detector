@@ -52,11 +52,10 @@ Here's a list of things that I think the application need to do:
 - **DONE** Start TF2 with command line arguments that sets the RCON password and port along with some other arguments.
 - **DONE** Implement the Source RCON protocol.
 - **DONE** RCON prompt utility.
+- **DONE** Parse lines in the TF2 log file. Extend as needed.
 - **NOT DONE** Read and write JSON files containing player lists.
 - **NOT DONE** Monitor the TF2 process.
 - **NOT DONE** Monitor the TF2 log file to see the output from some RCON commands.
-- **NOT DONE** Parse lines in the TF2 log file. The format feels quite free-form and ad hoc from a first look. Might be a bit tricky.
-- **NOT DONE** Truncate the TF2 log file periodically. For efficiency.
 - **NOT DONE** The whole user interface. Will write more here when the time comes.
 
 # Application architecture
