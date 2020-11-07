@@ -76,13 +76,14 @@ impl RustBotDetector {
         rcon_args.ip = self.preferences.ip.clone();
         rcon_args.port = self.preferences.port;
         rcon_args.password = self.preferences.password.clone();
-        let mut rcon_client = RConClient::new(&rcon_args).unwrap();
-        rcon_client.authorize().unwrap();
+
+        println!("Rust Bot Detector is now sending RCON status commands and watching the TF2 log file for new info.");
+        println!("Press Ctrl-c to exit.");
 
         let rcon_delay = time::Duration::from_millis(500);
         let loop_delay = time::Duration::from_millis(3000);
         loop {
-            Self::send_rcon_command(&self.preferences, &"status".to_string());
+            Self::send_rcon_command(&rcon_args, &"status".to_string());
             sleep(rcon_delay);
 
             let lines = log_file_watcher.process_new_data();
@@ -109,13 +110,8 @@ impl RustBotDetector {
         }
     }
 
-    fn send_rcon_command(preferences: &Preferences, cmd: &String) {
-        let mut rcon_args = RConArgs::new();
-        rcon_args.ip = preferences.ip.clone();
-        rcon_args.port = preferences.port;
-        rcon_args.password = preferences.password.clone();
-
-        let mut rcon_client = RConClient::new(&rcon_args);
+    fn send_rcon_command(rcon_args: &RConArgs, cmd: &String) {
+        let rcon_client = RConClient::new(&rcon_args);
         match rcon_client {
             Ok(mut client) => match client.authorize() {
                 Ok(_) => match client.exec_command(cmd) {
