@@ -76,13 +76,17 @@ impl Default for Preferences {
             password: "".to_string(),
             tf2_exe: canonicalize(
                 r"~/.local/share/Steam/steamapps/common/Team Fortress 2/hl2_linux",
-            )?
-            .to_str()?
+            )
+            .unwrap()
+            .to_str()
+            .unwrap()
             .to_string(),
             tf2_log_file: canonicalize(
                 r"~/.local/share/Steam/steamapps/common/Team Fortress 2/tf/console.log",
-            )?
-            .to_str()?
+            )
+            .unwrap()
+            .to_str()
+            .unwrap()
             .to_string(),
         }
     }
