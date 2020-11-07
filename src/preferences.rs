@@ -55,7 +55,7 @@ impl Default for Preferences {
     fn default() -> Self {
         Preferences {
             ip: "127.0.0.1".to_string(),
-            port: 27015,
+            port: 40434,
             password: "".to_string(),
             tf2_exe: r"C:\Program Files (x86)\Steam\steamapps\common\Team Fortress 2\hl2.exe"
                 .to_string(),
@@ -70,7 +70,7 @@ impl Default for Preferences {
         // TODO: If "~" does not work, use $HOME or use some other function to expand the path to absolute.
         Preferences {
             ip: "127.0.0.1".to_string(),
-            port: 27015,
+            port: 40434,
             password: "".to_string(),
             tf2_exe: r"~/.local/share/Steam/steamapps/common/Team Fortress 2/hl2_linux".to_string(),
             tf2_logfile: r"~/.local/share/Steam/steamapps/common/Team Fortress 2/tf/console.log"
@@ -83,7 +83,7 @@ impl Default for Preferences {
         // TODO: Use macOS default values.
         Preferences {
             ip: "127.0.0.1".to_string(),
-            port: 27015,
+            port: 40434,
             password: "".to_string(),
             tf2_exe: r"".to_string(),
             tf2_logfile: r"".to_string(),
