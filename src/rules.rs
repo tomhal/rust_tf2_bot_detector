@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashSet;
 use std::fs::File;
 use std::io::prelude::*;
 
@@ -80,13 +81,19 @@ pub struct RuleAction {
     unmark: Vec<PlayerAttribute>,
 }
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, Hash, Clone, Copy)]
 #[serde(rename_all = "lowercase")]
 pub enum PlayerAttribute {
     Cheater,
     Suspicious,
     Exploiter,
     Racist,
+}
+
+#[derive(Debug)]
+pub struct RuleFileMatchResult {
+    mark_actions: HashSet<PlayerAttribute>,
+    unmark_actions: HashSet<PlayerAttribute>,
 }
 
 impl RulesFile {
@@ -99,6 +106,27 @@ impl RulesFile {
 
     pub fn from_json_str(json: &str) -> RulesFile {
         serde_json::from_str(&json).unwrap()
+    }
+
+    pub fn get_actions(&self, player: &PlayerInfo, chat_text: &str) -> RuleFileMatchResult {
+        let mut mark_actions: HashSet<PlayerAttribute> = HashSet::new();
+        let mut unmark_actions: HashSet<PlayerAttribute> = HashSet::new();
+
+        for rule in self.rules.iter() {
+            if rule.triggers.is_match(&player, chat_text) {
+                for &action in rule.actions.mark.as_slice() {
+                    mark_actions.insert(action);
+                }
+                for &action in rule.actions.unmark.iter() {
+                    unmark_actions.insert(action);
+                }
+            }
+        }
+
+        RuleFileMatchResult {
+            mark_actions,
+            unmark_actions,
+        }
     }
 }
 
@@ -569,5 +597,51 @@ mod tests {
                 patterns: vec!["pattern 1".to_string(), "pattern 2".to_string()]
             })
         );
+    }
+
+    #[test]
+    fn test_rulefile_get_actions() {
+        let json = r#"
+        {
+            "$schema": "", "file_info": { "authors": [ "" ], "description": "", "title": "", "update_url": "" },
+            "rules": [
+                {
+                    "actions": {
+                        "mark": [
+                            "cheater"
+                        ]
+                    },
+                    "description": "description",
+                    "triggers": {
+                        "mode": "match_any",
+                        "username_text_match": {
+                            "case_sensitive": true,
+                            "mode": "contains",
+                            "patterns": [
+                                "pattern 1",
+                                "pattern 2"
+                            ]
+                        },
+                        "avatar_match": [
+                            {
+                                "avatar_hash": "avatarhash"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }"#;
+        let rules_file = RulesFile::from_json_str(json);
+
+        let player = PlayerInfo {
+            steamd_id: "steamid".to_string(),
+            nickname: "cheaternick".to_string(),
+            avatar_hash: "avatarhash".to_string(),
+        };
+        let chat_text = "git gud";
+
+        let actual = rules_file.get_actions(&player, chat_text);
+        assert_eq!(1, actual.mark_actions.len());
+        assert_eq!(0, actual.unmark_actions.len());
     }
 }

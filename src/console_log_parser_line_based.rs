@@ -1,32 +1,33 @@
 use regex::Regex;
 
-/// This is the output a ConsoleLogParser::parse_line()
-#[derive(Debug, PartialEq)]
-pub enum LogLineInfo {
-    Nothing,
-    PlayerInfo {
-        steam_id: String,
-        name: String,
-        id: u32,
-    },
-}
+use crate::console_log::ConsoleLogParser;
+use crate::console_log::LogLine;
 
 #[derive(Debug)]
-pub struct ConsoleLogParser {
+pub struct ConsoleLogParserLineBased {
     player_info_regex: Regex,
 }
 
 const REGEX_TIMESTAMP_STR: &'static str = r"\d{2}/\d{2}/\d{4} - \d{2}:\d{2}:\d{2}";
 
-/// ConsoleLogParser parses a line of TF2 console.log and turns it into a LogLineInfo data.
+/// ConsoleLogParserLineBased parses a line of TF2 console.log and turns it into a LogLine data.
 /// The format of the console.log is not a structured format like JSON or XML,
 /// but seems machine readable with some regexps.
 ///
 /// For now this parser only recognizes the output from the status rcon command,
-/// lines that are not of that line format are being returned as LogLineInfo::Nothing.
-impl ConsoleLogParser {
+/// lines that are not of that line format are being returned as LogLine::Unknown.
+///
+/// This is a simple line-based implementation that can be fooled by bots posting newlines
+/// and console-identical output. This will do for now.
+///
+/// For more info about how TF2 Bot Detector solves this:
+/// - https://github.com/PazerOP/tf2_bot_detector/blob/master/tf2_bot_detector/Config/ChatWrappers.h
+/// - https://github.com/PazerOP/tf2_bot_detector/issues/176
+/// - and C:\Program Files (x86)\Steam\steamapps\common\Team Fortress 2\tf\custom\aaaaaaaaaa_loadfirst_tf2_bot_detector\resource
+///
+impl ConsoleLogParserLineBased {
     pub fn new() -> Self {
-        ConsoleLogParser {
+        ConsoleLogParserLineBased {
             player_info_regex: Self::player_info_regex(),
         }
     }
@@ -38,16 +39,18 @@ impl ConsoleLogParser {
         );
         Regex::new(player_info_regex.as_str()).unwrap()
     }
+}
 
-    pub fn parse_line(&self, line: &str) -> LogLineInfo {
-        if let Some(player_info) = self.player_info_regex.captures(line) {
-            LogLineInfo::PlayerInfo {
+impl ConsoleLogParser for ConsoleLogParserLineBased {
+    fn parse_line(&self, text: &str) -> LogLine {
+        if let Some(player_info) = self.player_info_regex.captures(text) {
+            LogLine::PlayerInfo {
                 steam_id: player_info[4].to_string(),
                 name: player_info[3].to_string(),
                 id: player_info[2].parse::<u32>().unwrap_or_default(),
             }
         } else {
-            LogLineInfo::Nothing
+            LogLine::Unknown
         }
     }
 }
@@ -58,7 +61,7 @@ mod tests {
 
     #[test]
     fn test_console_parse_player_info_line() {
-        let parser = ConsoleLogParser::new();
+        let parser = ConsoleLogParserLineBased::new();
 
         let line = r#"11/07/2020 - 08:41:39: #     85 "aftershave"        [U:1:13962573]      01:44       44    0 active"#;
 
@@ -66,7 +69,7 @@ mod tests {
         println!("{:#?}", info);
         assert_eq!(
             info,
-            LogLineInfo::PlayerInfo {
+            LogLine::PlayerInfo {
                 id: 85,
                 steam_id: "U:1:13962573".to_string(),
                 name: r#"aftershave"#.to_string()
@@ -76,7 +79,7 @@ mod tests {
 
     #[test]
     fn test_console_parse_player_info_tricky_1() {
-        let parser = ConsoleLogParser::new();
+        let parser = ConsoleLogParserLineBased::new();
 
         // Trying to fool the regex by having a name that contain a single " and a [steamid].
         // "aftershave" [U:1:13962573]"
@@ -86,7 +89,7 @@ mod tests {
         println!("{:#?}", info);
         assert_eq!(
             info,
-            LogLineInfo::PlayerInfo {
+            LogLine::PlayerInfo {
                 id: 66,
                 steam_id: "U:1:13962573".to_string(),
                 name: r#"aftershave" [U:1:13962573]"#.to_string()
@@ -97,17 +100,17 @@ mod tests {
     #[test]
     fn test_parse_console_log() {
         let lines = CONSOLE_OUTPUT_1.lines();
-        let parser = ConsoleLogParser::new();
+        let parser = ConsoleLogParserLineBased::new();
 
-        let mut nothing_rows = 0;
+        let mut unknown_rows = 0;
         let mut player_rows = 0;
         for line in lines {
             let info = parser.parse_line(line);
             // println!("console info: {}", line);
             println!("console info: {:?}", info);
             match info {
-                LogLineInfo::Nothing => nothing_rows += 1,
-                LogLineInfo::PlayerInfo {
+                LogLine::Unknown => unknown_rows += 1,
+                LogLine::PlayerInfo {
                     steam_id: _,
                     id: _,
                     name: _,
@@ -115,7 +118,7 @@ mod tests {
             }
         }
 
-        assert_eq!(nothing_rows, 10);
+        assert_eq!(unknown_rows, 10);
         assert_eq!(player_rows, 23);
     }
 

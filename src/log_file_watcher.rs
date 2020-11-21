@@ -1,31 +1,33 @@
-use crate::utils::BoxResult;
 use std::fs::File;
 use std::io::Read;
 use std::io::Seek;
 use std::io::SeekFrom;
 
-use crate::console_log_parser::{ConsoleLogParser, LogLineInfo};
+use crate::console_log::{ConsoleLogParser, LogLine};
+use crate::console_log_parser_line_based::ConsoleLogParserLineBased;
+use crate::utils::BoxResult;
 
 #[derive(Debug)]
 pub struct LogFileWatcher {
     pub filename: String,
     pub last_pos: u64,
-    pub parser: ConsoleLogParser,
+    pub parser: ConsoleLogParserLineBased,
 }
 
 impl LogFileWatcher {
-    pub fn new(filename: &str, parser: ConsoleLogParser) -> Self {
-        let file = File::open(filename).unwrap();
-        let pos = file.metadata().unwrap().len();
+    pub fn new<S: Into<String>>(filename: S, parser: ConsoleLogParserLineBased) -> Self {
+        let filename = filename.into();
+        let file = File::open(&filename).unwrap();
+        let last_pos = file.metadata().unwrap().len();
 
         LogFileWatcher {
-            filename: filename.to_string(),
-            last_pos: pos,
+            filename,
+            last_pos,
             parser,
         }
     }
 
-    pub fn process_new_data(&mut self) -> Vec<LogLineInfo> {
+    pub fn process_new_data(&mut self) -> Vec<LogLine> {
         let mut infos = Vec::new();
 
         let new_data = self.read_new_data();

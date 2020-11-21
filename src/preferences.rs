@@ -1,6 +1,6 @@
 use crate::utils::BoxResult;
 use serde::{Deserialize, Serialize};
-use std::fs::{canonicalize, File};
+use std::fs::File;
 use std::io::prelude::*;
 
 /// The Preferences for rust_bot_detector
@@ -74,14 +74,14 @@ impl Default for Preferences {
             ip: "127.0.0.1".to_string(),
             port: 40434,
             password: "".to_string(),
-            tf2_exe: canonicalize(
+            tf2_exe: std::fs::canonicalize(
                 r"~/.local/share/Steam/steamapps/common/Team Fortress 2/hl2_linux",
             )
             .unwrap()
             .to_str()
             .unwrap()
             .to_string(),
-            tf2_log_file: canonicalize(
+            tf2_log_file: std::fs::canonicalize(
                 r"~/.local/share/Steam/steamapps/common/Team Fortress 2/tf/console.log",
             )
             .unwrap()

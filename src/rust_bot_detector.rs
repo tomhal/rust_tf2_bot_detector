@@ -1,4 +1,7 @@
-use console_log_parser::{ConsoleLogParser, LogLineInfo};
+#![allow(dead_code)]
+
+use console_log::LogLine;
+use console_log_parser_line_based::ConsoleLogParserLineBased;
 use log_file_watcher::LogFileWatcher;
 use preferences::Preferences;
 use rcon::{RConArgs, RConClient};
@@ -6,7 +9,8 @@ use std::{thread, time};
 use structopt::StructOpt;
 use thread::sleep;
 
-mod console_log_parser;
+mod console_log;
+mod console_log_parser_line_based;
 mod log_file_watcher;
 mod player;
 mod preferences;
@@ -68,7 +72,7 @@ impl RustBotDetector {
     }
 
     pub fn start(&mut self) {
-        let parser = ConsoleLogParser::new();
+        let parser = ConsoleLogParserLineBased::new();
         let mut log_file_watcher =
             LogFileWatcher::new(self.preferences.tf2_log_file.as_str(), parser);
 
@@ -93,10 +97,10 @@ impl RustBotDetector {
 
             for line in lines {
                 match line {
-                    LogLineInfo::Nothing => {
-                        // Don't spam the console with Nothings
+                    LogLine::Unknown => {
+                        // Don't spam the console with Unknowns
                     }
-                    LogLineInfo::PlayerInfo {
+                    LogLine::PlayerInfo {
                         steam_id: _,
                         name: _,
                         id: _,

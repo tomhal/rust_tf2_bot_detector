@@ -1,8 +1,12 @@
 {
     "cSpell.words": [
         "canonicalize",
+        "clippy",
         "eval",
+        "macos",
+        "rconprompt",
         "reqwest",
-        "structopt"
+        "structopt",
+        "unmark"
     ]
 }

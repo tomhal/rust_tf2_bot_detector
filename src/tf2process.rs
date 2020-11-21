@@ -50,6 +50,7 @@ impl Tf2Process {
             .arg("127.0.0.1")
             .arg("+fpsmax")
             .arg("300")
+            .arg("+net_start")
             //
             // Remove commands via alias
             //
